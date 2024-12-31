@@ -26,11 +26,11 @@ export function MobileMenu({ isDarkMode, onToggleDarkMode, personalInfo }: Mobil
   }, [isOpen])
 
   const menuItems = [
-    { to: '/', label: 'Trang chủ' },
-    { to: '#about', label: 'Giới thiệu' },
-    { to: '#skills', label: 'Kỹ năng' },
-    { to: '/projects', label: 'Dự Án' },
-    { to: '#contact', label: 'Liên hệ' }
+    { to: '/', label: 'Trang chủ', type: 'link' },
+    { to: '#about', label: 'Giới thiệu', type: 'scroll' },
+    { to: '#skills', label: 'Kỹ năng', type: 'scroll' },
+    { to: '/projects', label: 'Dự Án', type: 'link' },
+    { to: '#contact', label: 'Liên hệ', type: 'scroll' }
   ]
 
   const handleLinkClick = () => {
@@ -78,11 +78,18 @@ export function MobileMenu({ isDarkMode, onToggleDarkMode, personalInfo }: Mobil
 
                 <nav className="flex-1 px-2 py-4 overflow-y-auto">
                   {menuItems.map((item) => (
-                    item.to.startsWith('#') ? (
+                    item.type === 'scroll' ? (
                       <a
                         key={item.to}
                         href={item.to}
-                        onClick={handleLinkClick}
+                        onClick={(e) => {
+                          e.preventDefault()
+                          const element = document.querySelector(item.to)
+                          if (element) {
+                            element.scrollIntoView({ behavior: 'smooth' })
+                          }
+                          handleLinkClick()
+                        }}
                         className="block px-4 py-3 text-base font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors"
                       >
                         {item.label}

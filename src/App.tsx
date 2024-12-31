@@ -174,12 +174,22 @@ function App() {
                   <Link to="/" className="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors">
                     Trang chủ
                   </Link>
-                  <a href="#about" className="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors">
+                  <button 
+                    onClick={() => {
+                      document.querySelector('#about')?.scrollIntoView({ behavior: 'smooth' })
+                    }}
+                    className="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors"
+                  >
                     Giới thiệu
-                  </a>
-                  <a href="#skills" className="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors">
+                  </button>
+                  <button
+                    onClick={() => {
+                      document.querySelector('#skills')?.scrollIntoView({ behavior: 'smooth' })
+                    }}
+                    className="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors"
+                  >
                     Kỹ năng
-                  </a>
+                  </button>
                   <Link to="/projects" className="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors">
                     Dự Án
                   </Link>
