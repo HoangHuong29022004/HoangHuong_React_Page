@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://hoanghuong29022004.github.io/react_deploy/",
+  "homepage": "https://hoanghuong29022004.github.io/HoangHuong_React_Page/",
   "scripts": {
     "dev": "vite",
     "build": "npm run clean && tsc && vite build",
