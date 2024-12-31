@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Bars3Icon, XMarkIcon, SunIcon, MoonIcon } from '@heroicons/react/24/outline'
 import { Link } from 'react-router-dom'
 import { ContactModal } from './ContactModal'
+import { useScrollToSection } from '../hooks/useScrollToSection'
 
 interface MobileMenuProps {
   isDarkMode: boolean;
@@ -11,6 +12,7 @@ interface MobileMenuProps {
 }
 
 export function MobileMenu({ isDarkMode, onToggleDarkMode, personalInfo }: MobileMenuProps) {
+  const { scrollToTop, scrollToSection } = useScrollToSection()
   const [isOpen, setIsOpen] = useState(false)
   const [showContactModal, setShowContactModal] = useState(false)
 
@@ -26,7 +28,7 @@ export function MobileMenu({ isDarkMode, onToggleDarkMode, personalInfo }: Mobil
   }, [isOpen])
 
   const menuItems = [
-    { to: '/', label: 'Trang chủ', type: 'link' },
+    { to: '/', label: 'Trang chủ', type: 'top' },
     { to: '#about', label: 'Giới thiệu', type: 'scroll' },
     { to: '#skills', label: 'Kỹ năng', type: 'scroll' },
     { to: '/projects', label: 'Dự Án', type: 'link' },
@@ -77,24 +79,38 @@ export function MobileMenu({ isDarkMode, onToggleDarkMode, personalInfo }: Mobil
                 </div>
 
                 <nav className="flex-1 px-2 py-4 overflow-y-auto">
-                  {menuItems.map((item) => (
-                    item.type === 'scroll' ? (
-                      <a
-                        key={item.to}
-                        href={item.to}
-                        onClick={(e) => {
-                          e.preventDefault()
-                          const element = document.querySelector(item.to)
-                          if (element) {
-                            element.scrollIntoView({ behavior: 'smooth' })
-                          }
-                          handleLinkClick()
-                        }}
-                        className="block px-4 py-3 text-base font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors"
-                      >
-                        {item.label}
-                      </a>
-                    ) : (
+                  {menuItems.map((item) => {
+                    if (item.type === 'scroll') {
+                      return (
+                        <a
+                          key={item.to}
+                          href={item.to}
+                          onClick={(e) => {
+                            e.preventDefault()
+                            scrollToSection(item.to)
+                            handleLinkClick()
+                          }}
+                          className="block px-4 py-3 text-base font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors"
+                        >
+                          {item.label}
+                        </a>
+                      )
+                    }
+                    if (item.type === 'top') {
+                      return (
+                        <button
+                          key={item.to}
+                          onClick={() => {
+                            scrollToTop()
+                            handleLinkClick()
+                          }}
+                          className="block w-full text-left px-4 py-3 text-base font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors"
+                        >
+                          {item.label}
+                        </button>
+                      )
+                    }
+                    return (
                       <Link
                         key={item.to}
                         to={item.to}
@@ -104,7 +120,7 @@ export function MobileMenu({ isDarkMode, onToggleDarkMode, personalInfo }: Mobil
                         {item.label}
                       </Link>
                     )
-                  ))}
+                  })}
 
                   <button
                     onClick={() => {

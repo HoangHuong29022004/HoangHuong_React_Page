@@ -10,6 +10,7 @@ import { Routes, Route, Link } from 'react-router-dom'
 import { SkillCard } from './components/SkillCard'
 import { ContactModal } from './components/ContactModal'
 import { VideoModal } from './components/VideoModal'
+import { useScrollToSection } from './hooks/useScrollToSection'
 
 interface Interest {
   icon: string;
@@ -41,6 +42,7 @@ interface PersonalInfo {
 }
 
 function App() {
+  const { scrollToTop } = useScrollToSection()
   const [isDarkMode, setIsDarkMode] = useState(false)
   const [showContactModal, setShowContactModal] = useState(false)
 
@@ -171,9 +173,12 @@ function App() {
 
                 {/* Desktop Navigation */}
                 <div className="hidden md:flex items-center space-x-8">
-                  <Link to="/" className="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors">
+                  <button 
+                    onClick={scrollToTop}
+                    className="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors"
+                  >
                     Trang chủ
-                  </Link>
+                  </button>
                   <button 
                     onClick={() => {
                       document.querySelector('#about')?.scrollIntoView({ behavior: 'smooth' })
